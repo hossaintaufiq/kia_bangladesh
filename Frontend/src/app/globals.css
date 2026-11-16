@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+/*
+  Kia Bangladesh design tokens
+  midnight  - Kia's brand blue-black, the page's main dark
+  stone     - quiet light surface between white sections
+  ash       - secondary text
+  kia-red   - reserved for primary calls to action only
+*/
+@theme {
+  --color-midnight: #05141f;
+  --color-stone: #eef0f1;
+  --color-ash: #66717b;
+  --color-kia-red: #bb162b;
+  --color-kia-red-deep: #9a1124;
+
+  --font-sans: var(--font-kia), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  background: #ffffff;
+  color: var(--color-midnight);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-kia-red);
+  color: #fff;
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Underline that draws in on hover, for text links */
+.link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.5s var(--ease-premium);
+}
+.link-draw:hover,
+.link-draw:focus-visible {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
