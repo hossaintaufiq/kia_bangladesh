@@ -2,43 +2,50 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Logo from "../Logo";
 
 /**
- * Chapter intro for Kia Bangladesh.
- * A small card in the lower-left corner: the wordmark, then a slogan that rolls
- * word by word and lands on the brand name. Same idea as the ACM chapter intro,
- * dressed in Kia's palette (midnight card, Kia Signature type, red progress line).
+ * Full-screen intro for Kia Bangladesh.
+ * "Movement that inspires" builds up left to right, word by word, over a hairline
+ * progress bar. The words stay until the bar completes, then give way
+ * to the KIA Bangladesh lockup and the midnight curtain lifts to reveal the page.
+ * Mounted once by IntroProvider, so it only plays on first load / refresh.
+ * Scroll lock + scrollbar hiding live in globals.css (html:has([data-intro])).
+ * Only transform + opacity are animated; sizes use clamp() to stay responsive.
  */
 
-const WORDS = ["Movement", "that", "inspires", "Kia Bangladesh"];
-const STEP = 460; // ms per word
-const HOLD = 900; // ms the last word stays before the card leaves
-const TOTAL = STEP * (WORDS.length - 1) + HOLD;
+const WORDS = ["Movement", "that", "inspires"];
+const FIRST = 350; // ms before the first word
+const STEP = 600; // ms between words
+const DRIVE = 2.4; // s: progress bar length, and how long the words stay
+const LOGO_HOLD = 1500; // ms the lockup stays before the curtain lifts
+const EASE = [0.22, 1, 0.36, 1] as const;
+const CURTAIN_EASE = [0.76, 0, 0.24, 1] as const;
+const BAR_EASE = [0.65, 0, 0.35, 1] as const;
 
 type Props = {
-  /** Called when the card has finished leaving. */
+  /** Called once the curtain has fully left the screen. */
   onComplete: () => void;
 };
 
 export default function ChapterIntro({ onComplete }: Props) {
-  const [index, setIndex] = useState(0);
+  const [count, setCount] = useState(0); // words shown so far
+  const [showLogo, setShowLogo] = useState(false);
   const [leaving, setLeaving] = useState(false);
 
+  // Skip entirely for visitors who prefer reduced motion.
   useEffect(() => {
-    // Visitors who prefer reduced motion skip the intro entirely.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      onComplete();
-      return;
-    }
-    const timers: number[] = [];
-    for (let i = 1; i < WORDS.length; i++) {
-      timers.push(window.setTimeout(() => setIndex(i), STEP * i));
-    }
-    timers.push(window.setTimeout(() => setLeaving(true), TOTAL));
-    return () => timers.forEach(window.clearTimeout);
-    // Runs once; onComplete is only used for the reduced-motion shortcut.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) onComplete();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const timers: number[] = [];
+    WORDS.forEach((_, i) => {
+      timers.push(window.setTimeout(() => setCount(i + 1), FIRST + STEP * i));
+    });
+    timers.push(window.setTimeout(() => setShowLogo(true), DRIVE * 1000));
+    timers.push(window.setTimeout(() => setLeaving(true), DRIVE * 1000 + LOGO_HOLD));
+    return () => timers.forEach(window.clearTimeout);
   }, []);
 
   return (
@@ -46,39 +53,64 @@ export default function ChapterIntro({ onComplete }: Props) {
       {!leaving && (
         <motion.div
           aria-hidden="true"
-          className="pointer-events-none fixed bottom-6 left-6 z-[90] overflow-hidden bg-midnight text-white shadow-[0_24px_60px_-20px_rgba(5,20,31,0.7)] md:bottom-12 md:left-12"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 16 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          data-intro
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-midnight text-white will-change-transform"
+          initial={{ y: 0 }}
+          exit={{ y: "-100%", transition: { duration: 1, ease: CURTAIN_EASE } }}
         >
-          <div className="flex items-center gap-5 px-6 py-5 md:gap-6 md:px-8 md:py-6">
-            <Logo className="[&>span:last-child]:hidden" />
-            <span className="h-8 w-px bg-white/25" />
-            <div className="relative h-9 w-[12.5rem] overflow-hidden md:h-10 md:w-[15rem]">
-              <AnimatePresence initial={false}>
-                <motion.span
-                  key={index}
-                  className={`absolute inset-0 flex items-center whitespace-nowrap text-[1.55rem] leading-none tracking-tight md:text-[1.85rem] ${
-                    index === WORDS.length - 1 ? "font-normal" : "font-light"
-                  }`}
-                  initial={{ y: "100%" }}
-                  animate={{ y: "0%" }}
-                  exit={{ y: "-100%" }}
-                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          <div className="flex h-[clamp(3.75rem,7.5vw,5.25rem)] w-full items-center justify-center overflow-hidden px-4">
+            <AnimatePresence mode="wait" initial={false}>
+              {!showLogo ? (
+                <motion.div
+                  key="words"
+                  className="flex items-baseline gap-[0.45em] whitespace-nowrap text-[clamp(1.75rem,4.4vw,2.9rem)] font-light leading-none tracking-wide"
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.45, ease: EASE }}
                 >
-                  {WORDS[index]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
+                  {WORDS.map((word, i) => (
+                    <motion.span
+                      key={word}
+                      className="select-none will-change-transform"
+                      initial={{ opacity: 0, x: -18 }}
+                      animate={count > i ? { opacity: 1, x: 0 } : { opacity: 0, x: -18 }}
+                      transition={{ duration: 0.85, ease: EASE }}
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="lockup"
+                  className="flex items-center gap-[clamp(0.75rem,2vw,1.25rem)]"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, ease: EASE }}
+                >
+                  <span className="text-[clamp(2.5rem,6vw,4rem)] font-bold leading-none tracking-[0.14em]">
+                    KIA
+                  </span>
+                  <motion.span
+                    className="h-[clamp(2rem,4.4vw,2.9rem)] w-px origin-center bg-white/40"
+                    initial={{ scaleY: 0 }}
+                    animate={{ scaleY: 1 }}
+                    transition={{ duration: 0.6, ease: CURTAIN_EASE, delay: 0.15 }}
+                  />
+                  <span className="text-[clamp(1.05rem,2.6vw,1.65rem)] font-light leading-none tracking-[0.14em] uppercase">
+                    Bangladesh
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-          {/* Progress: shows how long until the page is ready */}
-          <div className="h-[2px] w-full bg-white/10">
+
+          {/* Hairline progress, in step with the words */}
+          <div className="mt-6 h-px w-[min(14rem,60vw)] overflow-hidden bg-white/15">
             <motion.div
-              className="h-full origin-left bg-kia-red"
+              className="h-full origin-left bg-kia-red will-change-transform"
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={{ duration: TOTAL / 1000, ease: "linear" }}
+              transition={{ duration: DRIVE, ease: BAR_EASE }}
             />
           </div>
         </motion.div>

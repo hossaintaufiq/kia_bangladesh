@@ -23,6 +23,14 @@ html {
   background: #ffffff;
   color: var(--color-midnight);
   -webkit-text-size-adjust: 100%;
+  /* Reserve the scrollbar's space so locking/unlocking scroll during the intro never shifts the layout. */
+  scrollbar-gutter: stable;
+}
+
+/* While the intro is up: no scrolling, and the reserved scrollbar gutter is painted midnight so no bar or white strip shows. */
+html:has([data-intro]) {
+  overflow: hidden;
+  background: var(--color-midnight);
 }
 
 body {
