@@ -1,12 +1,17 @@
 /**
- * Placeholder wordmark set in Kia Signature.
- * Swap this for the official Kia logo SVG from Kia International's brand package
- * (put it in /public/brand and render it here) before launch.
+ * Kia logo. Rendered as a mask so it takes the surrounding text colour
+ * (white on the dark header, midnight on the white one), as the style guide requires.
  */
 export default function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-baseline ${className}`}>
-      <span className="text-[1.65rem] font-bold leading-none tracking-[0.14em]">KIA</span>
-    </span>
+    <span
+      role="img"
+      aria-label="Kia"
+      className={`block aspect-[365/95] h-7 bg-current md:h-8 ${className}`}
+      style={{
+        WebkitMask: "url(/brand/kia-logo.png) center / contain no-repeat",
+        mask: "url(/brand/kia-logo.png) center / contain no-repeat",
+      }}
+    />
   );
 }

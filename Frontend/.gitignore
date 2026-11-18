@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Brand song archive (over GitHub 100 MB limit)
+public/OneDrive_1_11-18-2026/Brand+Song.zip

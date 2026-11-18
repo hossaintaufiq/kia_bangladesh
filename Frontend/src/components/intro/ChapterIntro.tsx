@@ -1,5 +1,6 @@
 "use client";
 
+import Logo from "../Logo";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -87,9 +88,7 @@ export default function ChapterIntro({ onComplete }: Props) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.9, ease: EASE }}
                 >
-                  <span className="text-[clamp(2.5rem,6vw,4rem)] font-bold leading-none tracking-[0.14em]">
-                    KIA
-                  </span>
+                  <Logo className="!h-[clamp(2rem,4.8vw,3.25rem)]" />
                   <motion.span
                     className="h-[clamp(2rem,4.4vw,2.9rem)] w-px origin-center bg-white/40"
                     initial={{ scaleY: 0 }}
