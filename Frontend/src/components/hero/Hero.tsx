@@ -108,7 +108,7 @@ export default function Hero() {
                   </p>
                   <Soon
                     label={slide.cta}
-                    className="mt-8 rounded-full bg-white px-7 py-3.5 text-base text-midnight transition-colors duration-300 hover:bg-kia-red hover:text-white"
+                    className="btn btn-light mt-8"
                   >
                     {slide.cta}
                   </Soon>

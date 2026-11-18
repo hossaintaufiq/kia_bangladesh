@@ -5,14 +5,13 @@
   midnight  - Kia's brand blue-black, the page's main dark
   stone     - quiet light surface between white sections
   ash       - secondary text
-  kia-red   - reserved for primary calls to action only
+  kia-red   - Kia Live Red, point color only (never a button fill)
 */
 @theme {
   --color-midnight: #05141f;
   --color-stone: #eef0f1;
-  --color-ash: #66717b;
-  --color-kia-red: #bb162b;
-  --color-kia-red-deep: #9a1124;
+  --color-ash: rgb(5 20 31 / 0.6); /* caption: midnight at 60% */
+  --color-kia-red: #ea0029;
 
   --font-sans: var(--font-kia), ui-sans-serif, system-ui, sans-serif;
 
@@ -56,6 +55,31 @@ body {
 button {
   cursor: pointer;
 }
+
+/* Kia WSG circular buttons: Kia Signature Bold, midnight or white fill, 80% opacity + 1px underline on hover/focus */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: 18.5px;
+  height: 37px;
+  padding: 0 22px;
+  font-size: 18px;
+  text-decoration: underline transparent 1px;
+  text-underline-offset: 4px;
+  transition: opacity 0.3s, text-decoration-color 0.3s;
+}
+.btn:hover,
+.btn:focus-visible {
+  opacity: 0.8;
+  text-decoration-color: currentColor;
+}
+.btn-md { height: 30px; padding: 0 18px; font-size: 14px; border-radius: 15px; }
+.btn-dark { background: var(--color-midnight); color: #fff; }
+.btn-light { background: #fff; color: var(--color-midnight); }
 
 /* Underline that draws in on hover, for text links */
 .link-draw {

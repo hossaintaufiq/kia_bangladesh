@@ -5,11 +5,8 @@
  */
 export default function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-baseline gap-3 ${className}`}>
+    <span className={`inline-flex items-baseline ${className}`}>
       <span className="text-[1.65rem] font-bold leading-none tracking-[0.14em]">KIA</span>
-      <span className="hidden text-sm font-light leading-none tracking-wide opacity-80 sm:inline">
-        Bangladesh
-      </span>
     </span>
   );
 }

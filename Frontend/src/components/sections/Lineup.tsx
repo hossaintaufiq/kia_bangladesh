@@ -83,7 +83,7 @@ export default function Lineup() {
                       </p>
                       <Soon
                         label={p.cta}
-                        className="mt-6 rounded-full bg-white px-6 py-3 text-base text-midnight transition-colors duration-300 hover:bg-kia-red hover:text-white"
+                        className="btn btn-light mt-6"
                       >
                         {p.cta}
                       </Soon>

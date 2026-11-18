@@ -33,7 +33,7 @@ export default function Cta() {
             </h2>
             <Soon
               label={c.cta}
-              className="mt-7 self-start rounded-full bg-white px-7 py-3.5 text-base text-midnight transition-colors duration-300 hover:bg-kia-red hover:text-white"
+              className="btn btn-light mt-7 self-start"
             >
               {c.cta}
             </Soon>

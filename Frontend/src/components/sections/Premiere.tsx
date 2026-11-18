@@ -42,7 +42,7 @@ export default function Premiere() {
           </p>
           <Soon
             label="Kia PV7"
-            className="mt-9 rounded-full bg-kia-red px-7 py-3.5 text-base text-white transition-colors duration-300 hover:bg-kia-red-deep"
+            className="btn btn-light mt-9"
           >
             Watch the premiere
           </Soon>

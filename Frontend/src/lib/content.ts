@@ -2,6 +2,9 @@
 // Labels here are what the "coming soon" dialog shows.
 
 export const NAV = ["Vehicles", "Brand", "Design", "Innovation", "Owners", "Newsroom"] as const;
+// Kia WSG: up to 3 GNB menus on the left and 3 on the right
+export const NAV_LEFT = NAV.slice(0, 3);
+export const NAV_RIGHT = NAV.slice(3);
 
 export const FOOTER_GROUPS: { title: string; links: string[] }[] = [
   { title: "Vehicles", links: ["Electric", "Hybrid", "Purpose built vehicles", "Compare models"] },

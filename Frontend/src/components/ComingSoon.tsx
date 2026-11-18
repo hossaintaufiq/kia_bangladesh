@@ -109,7 +109,7 @@ export function ComingSoonProvider({ children }: { children: ReactNode }) {
                 ref={closeRef}
                 type="button"
                 onClick={close}
-                className="mt-10 rounded-full bg-midnight px-7 py-3.5 text-base text-white transition-colors hover:bg-kia-red"
+                className="btn btn-dark mt-10"
               >
                 Back to home
               </button>
