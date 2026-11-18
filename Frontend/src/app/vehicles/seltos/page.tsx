@@ -142,7 +142,7 @@ export default function SeltosPage() {
       {/* Colours */}
       <section className="bg-white px-6 py-24 md:px-12 lg:py-40">
         <div className="mx-auto max-w-[1300px]">
-          <h2 className={`${H2} mx-auto max-w-3xl text-center`}>
+          <h2 className={`${H2} mx-auto max-w-4xl text-center`}>
             Seven colours, perfected by nature
           </h2>
           <div className="mt-12 lg:mt-20">

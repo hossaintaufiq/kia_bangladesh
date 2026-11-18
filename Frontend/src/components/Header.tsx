@@ -116,7 +116,7 @@ export default function Header() {
             <div className="flex items-center gap-3">
               <Soon
                 label="Book a test drive"
-                className="btn btn-light btn-md !hidden md:!inline-flex"
+                className={`btn btn-md !hidden md:!inline-flex ${vehicles ? "btn-dark" : "btn-light"}`}
               >
                 Book a test drive
               </Soon>

@@ -143,7 +143,7 @@ export default function Hero() {
                 </button>
               ))}
             </div>
-            <p className="hidden pb-3.5 text-sm tabular-nums text-white/80 lg:block">
+            <p className="hidden shrink-0 whitespace-nowrap pb-3.5 text-sm tabular-nums text-white/80 lg:block">
               {pad(i + 1)} / {pad(SLIDES.length)}
             </p>
           </div>

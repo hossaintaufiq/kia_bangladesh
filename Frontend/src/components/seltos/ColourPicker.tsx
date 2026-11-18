@@ -18,8 +18,8 @@ export default function ColourPicker() {
   const [i, setI] = useState(0);
 
   return (
-    <div className="flex flex-col items-center gap-6 md:flex-row md:gap-4">
-      <div className="relative aspect-[2/1] w-full md:flex-1">
+    <div className="flex flex-col items-center gap-6 lg:flex-row lg:gap-4">
+      <div className="relative aspect-[2/1] w-full overflow-hidden lg:flex-1">
         {COLOURS.map((c, n) => (
           <Image
             key={c.file}
@@ -28,21 +28,21 @@ export default function ColourPicker() {
             aria-hidden={n !== i}
             fill
             sizes="(min-width: 1280px) 1000px, 100vw"
-            className={`object-contain transition-opacity duration-500 motion-reduce:transition-none ${
+            className={`object-contain max-lg:scale-[1.3] transition-opacity duration-500 motion-reduce:transition-none ${
               n === i ? "opacity-100" : "opacity-0"
             }`}
           />
         ))}
       </div>
 
-      <div className="flex flex-col items-center md:-translate-y-14 md:pl-6 md:pr-2">
+      <div className="flex flex-col items-center lg:-translate-y-14 lg:pl-6 lg:pr-2">
         <p aria-live="polite" className="sr-only">
           {COLOURS[i].name}
         </p>
         <div
           role="radiogroup"
           aria-label="Exterior colour"
-          className="flex flex-wrap justify-center gap-4 md:flex-col md:flex-nowrap md:gap-5"
+          className="flex flex-wrap justify-center gap-3 lg:flex-col lg:flex-nowrap lg:gap-5"
         >
           {COLOURS.map((c, n) => (
             <div key={c.file} className="group relative">
@@ -59,7 +59,7 @@ export default function ColourPicker() {
               />
               <span
                 aria-hidden
-                className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-[12.5px] bg-midnight px-3 py-1 text-xs font-bold text-white opacity-0 transition-[opacity,transform] duration-300 ease-premium group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none md:bottom-auto md:left-auto md:right-full md:top-1/2 md:mb-0 md:mr-3 md:-translate-x-1 md:-translate-y-1/2 md:group-hover:translate-x-0 md:group-focus-within:translate-x-0"
+                className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-[12.5px] bg-midnight px-3 py-1 text-xs font-bold text-white opacity-0 transition-[opacity,transform] duration-300 ease-premium group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none lg:bottom-auto lg:left-auto lg:right-full lg:top-1/2 lg:mb-0 lg:mr-3 lg:-translate-x-1 lg:-translate-y-1/2 lg:group-hover:translate-x-0 lg:group-focus-within:translate-x-0"
               >
                 {c.name}
               </span>
