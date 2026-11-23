@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ComingSoonProvider } from "@/components/ComingSoon";
 import Header from "@/components/Header";
+import { VEHICLES } from "@/data/vehicles";
+import { vehicleAssets } from "@/data/vehicles/assets";
 import { IntroProvider } from "@/components/intro/IntroProvider";
 
 // Kia Signature, supplied from Kia International's brand resources.
@@ -32,7 +34,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ComingSoonProvider>
           <IntroProvider>
-            <Header />
+            <Header
+              vehicles={VEHICLES.map((v) => ({
+                slug: v.slug,
+                name: v.name,
+                image: vehicleAssets(v.slug).image("nav"),
+              }))}
+            />
             {children}
           </IntroProvider>
         </ComingSoonProvider>
