@@ -173,6 +173,24 @@ export default function Header() {
                     </span>
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/vehicles/sonet"
+                    onClick={() => setVehicles(false)}
+                    className="group block w-[240px] text-left"
+                  >
+                    <Image
+                      src="/kia/sonet-nav.webp"
+                      alt=""
+                      width={240}
+                      height={97}
+                      className="h-auto w-[240px]"
+                    />
+                    <span className="mt-4 block text-[15px] font-bold group-hover:underline group-focus-visible:underline">
+                      Sonet
+                    </span>
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -219,6 +237,15 @@ export default function Header() {
                       className="block py-1 pl-4 text-left text-xl font-bold"
                     >
                       Seltos
+                    </Link>
+                  )}
+                  {item === "Vehicles" && (
+                    <Link
+                      href="/vehicles/sonet"
+                      onClick={() => setMenu(false)}
+                      className="block py-1 pl-4 text-left text-xl font-bold"
+                    >
+                      Sonet
                     </Link>
                   )}
                 </motion.li>

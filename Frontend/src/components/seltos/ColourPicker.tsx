@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Spin360 from "./Spin360";
 
 // Swatch values are approximations of the paint shown in each photo.
-const COLOURS = [
+type Colour = { name: string; file: string; swatch: string };
+
+const SELTOS_COLOURS: readonly Colour[] = [
   { name: "Glacier White Pearl", file: "white", swatch: "#eceeef" },
   { name: "Gravity Gray", file: "gray", swatch: "#4b5a5b" },
   { name: "Gravity Gray Matt", file: "matt", swatch: "#5c6266" },
@@ -12,27 +14,45 @@ const COLOURS = [
   { name: "Imperial Blue", file: "blue", swatch: "#1c2f6b" },
   { name: "Intense Red", file: "red", swatch: "#b3221f" },
   { name: "Aurora Black Pearl", file: "black", swatch: "#15181a" },
-] as const;
+];
 
-export default function ColourPicker() {
+type Props = {
+  model?: string;
+  colours?: readonly Colour[];
+  /** Frames live at {folderBase}/{colour.file}/01.webp … */
+  folderBase?: string;
+  /** Still photos at {stillBase}/color-{colour.file}.webp; omit to use the first frame. */
+  stillBase?: string | null;
+  frames?: number;
+  /** Scale of the car inside the viewer (1 = fills it). */
+  zoom?: number;
+};
+
+export default function ColourPicker({
+  model = "Seltos",
+  colours: COLOURS = SELTOS_COLOURS,
+  folderBase = "/kia/seltos/360",
+  stillBase = "/kia/seltos",
+  frames,
+  zoom,
+}: Props) {
   const [i, setI] = useState(0);
 
   return (
     <div className="flex flex-col items-center gap-6 lg:flex-row lg:gap-4">
-      <div className="relative aspect-[2/1] w-full overflow-hidden lg:flex-1">
-        {COLOURS.map((c, n) => (
-          <Image
-            key={c.file}
-            src={`/kia/seltos/color-${c.file}.webp`}
-            alt={n === i ? `Kia Seltos in ${c.name}` : ""}
-            aria-hidden={n !== i}
-            fill
-            sizes="(min-width: 1280px) 1000px, 100vw"
-            className={`object-contain max-lg:scale-[1.3] transition-opacity duration-500 motion-reduce:transition-none ${
-              n === i ? "opacity-100" : "opacity-0"
-            }`}
-          />
-        ))}
+      <div className="w-full lg:flex-1">
+        <Spin360
+          folder={`${folderBase}/${COLOURS[i].file}`}
+          still={
+            stillBase
+              ? `${stillBase}/color-${COLOURS[i].file}.webp`
+              : `${folderBase}/${COLOURS[i].file}/01.webp`
+          }
+          frames={frames}
+          zoom={zoom}
+          warm={COLOURS.filter((_, n) => n !== i).map((c) => `${folderBase}/${c.file}`)}
+          alt={`Kia ${model} in ${COLOURS[i].name}`}
+        />
       </div>
 
       <div className="flex flex-col items-center lg:-translate-y-14 lg:pl-6 lg:pr-2">
