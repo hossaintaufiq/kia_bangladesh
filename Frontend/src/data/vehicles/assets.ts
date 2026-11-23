@@ -14,8 +14,6 @@
 
 export const IMAGE_SLOTS = {
   single: ["hero", "closing", "cabin", "spotlight", "nav"],
-  /** Slots that come in numbered sets, with the count taken from the vehicle data. */
-  sets: ["detail", "feature", "safety", "spotlight-detail"],
 } as const;
 
 export const VIDEO_SLOTS = ["film", "tour", "clip-1", "clip-2", "safety-clip"] as const;

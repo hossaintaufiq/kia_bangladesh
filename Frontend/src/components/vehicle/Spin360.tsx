@@ -14,6 +14,9 @@ import Image from "next/image";
 const DEFAULT_FRAMES = 36;
 const SENSITIVITY = 1.1; // frames per (viewer-width / FRAMES) of drag
 const FRICTION = 0.94;
+// The car is drawn a little larger below the lg breakpoint, but never past this fill.
+const SMALL_BOOST = 1.12;
+const MAX_ZOOM = 0.97;
 
 const frameUrl = (folder: string, i: number) =>
   `${folder}/${String(i + 1).padStart(2, "0")}.webp`;
@@ -58,7 +61,9 @@ export default function Spin360({ folder, still, alt, frames: FRAMES = DEFAULT_F
       c.width = cw;
       c.height = ch;
     }
-    const s = Math.min(cw / img.naturalWidth, ch / img.naturalHeight) * zoom;
+    const wide = window.matchMedia("(min-width: 1024px)").matches;
+    const z = wide ? zoom : Math.min(zoom * SMALL_BOOST, MAX_ZOOM);
+    const s = Math.min(cw / img.naturalWidth, ch / img.naturalHeight) * z;
     const dw = img.naturalWidth * s;
     const dh = img.naturalHeight * s;
     const ctx = c.getContext("2d")!;
@@ -190,7 +195,7 @@ export default function Spin360({ folder, still, alt, frames: FRAMES = DEFAULT_F
   return (
     <div
       ref={wrap}
-      className={`relative aspect-[2/1] w-full select-none overflow-hidden ${
+      className={`relative aspect-[3/2] w-full select-none md:aspect-[2/1] overflow-hidden ${
         status === "ready" ? "cursor-grab touch-pan-y active:cursor-grabbing" : ""
       }`}
       onPointerDown={onDown}
@@ -203,20 +208,23 @@ export default function Spin360({ folder, still, alt, frames: FRAMES = DEFAULT_F
       aria-label={status === "ready" ? `${alt}. Drag or use arrow keys to rotate 360 degrees.` : undefined}
     >
       {status !== "ready" && (
-        <div className="absolute inset-0" style={{ transform: `scale(${zoom})` }}>
+        <div
+          className="absolute inset-0 [transform:scale(var(--zm))] lg:[transform:scale(var(--z))]"
+          style={{ "--z": zoom, "--zm": Math.min(zoom * SMALL_BOOST, MAX_ZOOM) } as React.CSSProperties}
+        >
           <Image
             src={still}
             alt={alt}
             fill
             sizes="(min-width: 1280px) 1000px, 100vw"
-            className="object-contain max-lg:scale-[1.3]"
+            className="object-contain"
             priority={false}
           />
         </div>
       )}
       <canvas
         ref={canvas}
-        className={`absolute inset-0 h-full w-full max-lg:scale-[1.3] ${status === "ready" ? "" : "invisible"}`}
+        className={`absolute inset-0 h-full w-full ${status === "ready" ? "" : "invisible"}`}
       />
 
       {status === "loading" && (
@@ -229,7 +237,7 @@ export default function Spin360({ folder, still, alt, frames: FRAMES = DEFAULT_F
       {status === "ready" && (
         <span
           aria-hidden
-          className={`pointer-events-none absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full ${dark ? "bg-white/15 backdrop-blur" : "bg-midnight/80"} px-4 py-1.5 text-xs font-bold text-white transition-opacity duration-500 ${
+          className={`pointer-events-none absolute bottom-3 left-1/2 flex whitespace-nowrap -translate-x-1/2 items-center gap-2 rounded-full ${dark ? "bg-white/15 backdrop-blur" : "bg-midnight/80"} px-4 py-1.5 text-xs font-bold text-white transition-opacity duration-500 ${
             touched ? "opacity-0" : "opacity-100"
           }`}
         >

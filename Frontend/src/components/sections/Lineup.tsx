@@ -2,11 +2,33 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Soon } from "../ComingSoon";
 
-export type LineupVehicle = { slug: string; name: string; summary: string; image: string };
+const PANELS = [
+  {
+    title: "Electric",
+    text: "A diverse EV lineup defines the new era of electrified mobility.",
+    cta: "Explore electric",
+    image: "/kia/vehicle-2.webp",
+    position: "52% 62%",
+  },
+  {
+    title: "Hybrid",
+    text: "Efficiency and performance, combined in one drive.",
+    cta: "Explore hybrid",
+    image: "/kia/vehicle-1.webp",
+    position: "60% 50%",
+  },
+  {
+    title: "Purpose built",
+    text: "A new concept of mobility space, shaped around what you need to do.",
+    cta: "Explore PBV",
+    image: "/kia/vehicle-3.webp",
+    position: "50% 50%",
+  },
+];
 
-export default function Lineup({ vehicles }: { vehicles: LineupVehicle[] }) {
+export default function Lineup() {
   const [active, setActive] = useState(0);
 
   return (
@@ -14,16 +36,19 @@ export default function Lineup({ vehicles }: { vehicles: LineupVehicle[] }) {
       <div className="mx-auto max-w-[1600px]">
         <div className="mb-10 flex items-end justify-between gap-6 md:mb-14">
           <h2 className="text-[clamp(2rem,3.8vw,3.75rem)] font-light leading-[1.05] tracking-[-0.02em]">
-            Choose your Kia
+            Choose how you move
           </h2>
+          <Soon label="All vehicles" className="link-draw hidden pb-1 text-lg md:inline-block">
+            View all vehicles
+          </Soon>
         </div>
 
         <div className="flex flex-col gap-3 md:h-[78svh] md:min-h-[580px] md:max-h-[820px] md:flex-row md:gap-2">
-          {vehicles.map((p, i) => {
+          {PANELS.map((p, i) => {
             const on = active === i;
             return (
               <article
-                key={p.slug}
+                key={p.title}
                 onMouseEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
                 style={{ flexGrow: on ? 3.2 : 1 }}
@@ -34,7 +59,8 @@ export default function Lineup({ vehicles }: { vehicles: LineupVehicle[] }) {
                   alt=""
                   fill
                   sizes="(min-width: 768px) 60vw, 100vw"
-                  className={`object-cover object-[50%_60%] transition-transform duration-[1400ms] ease-premium motion-reduce:transition-none ${
+                  style={{ objectPosition: p.position }}
+                  className={`object-cover transition-transform duration-[1400ms] ease-premium motion-reduce:transition-none ${
                     on ? "scale-100" : "scale-110"
                   }`}
                 />
@@ -44,7 +70,7 @@ export default function Lineup({ vehicles }: { vehicles: LineupVehicle[] }) {
                 />
                 <div className="absolute inset-x-0 bottom-0 p-6 md:p-9">
                   <h3 className="text-[clamp(1.7rem,2.4vw,2.6rem)] font-light leading-tight tracking-tight">
-                    {p.name}
+                    {p.title}
                   </h3>
                   <div
                     className={`grid transition-[grid-template-rows,opacity] duration-700 ease-premium motion-reduce:transition-none max-md:!grid-rows-[1fr] max-md:!opacity-100 ${
@@ -53,11 +79,14 @@ export default function Lineup({ vehicles }: { vehicles: LineupVehicle[] }) {
                   >
                     <div className="overflow-hidden">
                       <p className="mt-4 max-w-md text-lg font-light leading-relaxed text-white/85">
-                        {p.summary}
+                        {p.text}
                       </p>
-                      <Link href={`/vehicles/${p.slug}`} className="btn btn-light mt-6">
-                        Explore {p.name}
-                      </Link>
+                      <Soon
+                        label={p.cta}
+                        className="btn btn-light mt-6"
+                      >
+                        {p.cta}
+                      </Soon>
                     </div>
                   </div>
                 </div>

@@ -4,11 +4,9 @@ export const seltos: Vehicle = {
   slug: "seltos",
   name: "Seltos",
   tagline: "The SUV that awakens your true self.",
-  summary: "A bold SUV with a wide-screen cockpit and technology that looks out for you.",
   metaDescription:
     "Explore the Kia Seltos in 360°. See its design, colours, interior, technology and safety.",
   heroAlt: "Dark Kia Seltos parked on a city street at dusk",
-  navAlt: "Kia Seltos in white, front three-quarter view",
 
   intro: {
     title: ["Where practicality", "meets style"],
