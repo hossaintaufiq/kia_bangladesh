@@ -14,7 +14,9 @@ import Logo from "./Logo";
 import { Soon, useComingSoon } from "./ComingSoon";
 import { NAV, NAV_LEFT, NAV_RIGHT } from "@/lib/content";
 
-export default function Header() {
+export type MenuVehicle = { slug: string; name: string; image: string };
+
+export default function Header({ vehicles: models }: { vehicles: MenuVehicle[] }) {
   const { scrollY } = useScroll();
   const [solid, setSolid] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -155,42 +157,26 @@ export default function Header() {
             <div className="mx-auto max-w-[1600px] px-12 py-10">
               <p className="text-[13px] text-midnight">SUV</p>
               <ul className="mt-4 flex gap-8">
-                <li>
-                  <Link
-                    href="/vehicles/seltos"
-                    onClick={() => setVehicles(false)}
-                    className="group block w-[240px] text-left"
-                  >
-                    <Image
-                      src="/kia/seltos-nav.webp"
-                      alt=""
-                      width={240}
-                      height={97}
-                      className="h-auto w-[240px]"
-                    />
-                    <span className="mt-4 block text-[15px] font-bold group-hover:underline group-focus-visible:underline">
-                      Seltos
-                    </span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/vehicles/sonet"
-                    onClick={() => setVehicles(false)}
-                    className="group block w-[240px] text-left"
-                  >
-                    <Image
-                      src="/kia/sonet-nav.webp"
-                      alt=""
-                      width={240}
-                      height={97}
-                      className="h-auto w-[240px]"
-                    />
-                    <span className="mt-4 block text-[15px] font-bold group-hover:underline group-focus-visible:underline">
-                      Sonet
-                    </span>
-                  </Link>
-                </li>
+                {models.map((m) => (
+                  <li key={m.slug}>
+                    <Link
+                      href={`/vehicles/${m.slug}`}
+                      onClick={() => setVehicles(false)}
+                      className="group block w-[240px] text-left"
+                    >
+                      <Image
+                        src={m.image}
+                        alt=""
+                        width={240}
+                        height={97}
+                        className="h-auto w-[240px]"
+                      />
+                      <span className="mt-4 block text-[15px] font-bold group-hover:underline group-focus-visible:underline">
+                        {m.name}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -230,24 +216,17 @@ export default function Header() {
                   >
                     {item}
                   </button>
-                  {item === "Vehicles" && (
-                    <Link
-                      href="/vehicles/seltos"
-                      onClick={() => setMenu(false)}
-                      className="block py-1 pl-4 text-left text-xl font-bold"
-                    >
-                      Seltos
-                    </Link>
-                  )}
-                  {item === "Vehicles" && (
-                    <Link
-                      href="/vehicles/sonet"
-                      onClick={() => setMenu(false)}
-                      className="block py-1 pl-4 text-left text-xl font-bold"
-                    >
-                      Sonet
-                    </Link>
-                  )}
+                  {item === "Vehicles" &&
+                    models.map((m) => (
+                      <Link
+                        key={m.slug}
+                        href={`/vehicles/${m.slug}`}
+                        onClick={() => setMenu(false)}
+                        className="block py-1 pl-4 text-left text-xl font-bold"
+                      >
+                        {m.name}
+                      </Link>
+                    ))}
                 </motion.li>
               ))}
             </ul>
