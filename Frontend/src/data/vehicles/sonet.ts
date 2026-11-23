@@ -4,11 +4,9 @@ export const sonet: Vehicle = {
   slug: "sonet",
   name: "Sonet",
   tagline: "Compact in size. Bold in everything else.",
-  summary: "A compact SUV with a confident stance and a technology-rich cabin.",
   metaDescription:
     "Explore the Kia Sonet in 360°. See its design, colours, interior, technology and safety.",
   heroAlt: "Red Kia Sonet on a forest road",
-  navAlt: "Kia Sonet in white, front three-quarter view",
 
   intro: {
     title: ["Small footprint,", "big presence"],

@@ -57,7 +57,7 @@ export default function ColourPicker({ slug, name, colours, frames, zoom }: Prop
               />
               <span
                 aria-hidden
-                className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-[12.5px] bg-midnight px-3 py-1 text-xs font-bold text-white opacity-0 transition-[opacity,transform] duration-300 ease-premium group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none lg:bottom-auto lg:left-auto lg:right-full lg:top-1/2 lg:mb-0 lg:mr-3 lg:-translate-x-1 lg:-translate-y-1/2 lg:group-hover:translate-x-0 lg:group-focus-within:translate-x-0"
+                className="pointer-events-none absolute bottom-full max-lg:hidden left-1/2 mb-3 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-[12.5px] bg-midnight px-3 py-1 text-xs font-bold text-white opacity-0 transition-[opacity,transform] duration-300 ease-premium group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none lg:bottom-auto lg:left-auto lg:right-full lg:top-1/2 lg:mb-0 lg:mr-3 lg:-translate-x-1 lg:-translate-y-1/2 lg:group-hover:translate-x-0 lg:group-focus-within:translate-x-0"
               >
                 {c.name}
               </span>

@@ -26,8 +26,6 @@ export type Vehicle = {
   name: string;
   /** Hero tagline. */
   tagline: string;
-  /** Short line used on the vehicles list and in menus. */
-  summary: string;
   metaDescription: string;
   /** Alt text for the hero image. */
   heroAlt: string;
@@ -82,7 +80,4 @@ export type Vehicle = {
   };
 
   closing: { title: string; alt: string };
-
-  /** Alt text for the menu thumbnail (nav.webp). */
-  navAlt: string;
 };
